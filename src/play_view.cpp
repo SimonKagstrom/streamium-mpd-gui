@@ -71,32 +71,50 @@ public:
 
 	void pushEvent(event_t ev)
 	{
+		struct mpd_status *status = mpd_status_begin();
+
 		switch (ev) {
 		case KEY_PAGEDOWN:
+		{
+			if (!status)
+				break;
+
+			unsigned last_id = mpd_status_get_queue_length(status);
+
+			/* Stop if we're at the last entry */
+			if (m_current_id == last_id) {
+				printf("Last entry, just stop\n");
+				mpd_run_stop(Gui::gui->mpd_conn);
+				break;
+			}
+
 			mpd_run_next(Gui::gui->mpd_conn);
 			TimerController::controller->arm(this);
 			break;
+		}
 		case KEY_PAGEUP:
 			mpd_run_previous(Gui::gui->mpd_conn);
 			TimerController::controller->arm(this);
 			break;
 		case KEY_SELECT:
 		{
-			struct mpd_status *status = mpd_status_begin();
 			if (!status)
-				return;
+				break;
+
 			enum mpd_state state = mpd_status_get_state(status);
 			if (state == MPD_STATE_STOP)
 				mpd_run_play(Gui::gui->mpd_conn);
 			else
 				mpd_run_toggle_pause(Gui::gui->mpd_conn);
-			mpd_status_free(status);
 
 			break;
 		}
 		default:
 			break;
 		}
+
+		if (!status)
+			mpd_status_free(status);
 	}
 
 	void viewPushCallback()
@@ -142,33 +160,32 @@ protected:
 		status = mpd_run_status(Gui::gui->mpd_conn);
 		if (!status)
 			return;
+
 		enum mpd_state state = mpd_status_get_state(status);
-		if (state == MPD_STATE_PLAY)
-			this->m_playing = true;
-		else
-			this->m_playing = false;
+		unsigned last_id = mpd_status_get_queue_length(status);
+
+		this->m_playing = (state == MPD_STATE_PLAY);
 		mpd_status_free(status);
 
 		song = mpd_run_current_song(Gui::gui->mpd_conn);
 		if (!song)
 			return;
 
-		unsigned id = mpd_song_get_id(song);
+		m_current_id = mpd_song_get_id(song);
+		mpd_song_free(song);
 
-		/* Nothing new? */
-		if (m_current_id == id) {
-			mpd_song_free(song);
-			return;
-		}
-		m_current_id = id;
+		unsigned first = m_current_id - m_n_songs / 2 + 1;
+		unsigned last = m_current_id + m_n_songs / 2 + 1;
 
-		unsigned first = id - m_n_songs / 2 + 1;
-		unsigned last = id + m_n_songs / 2 + 1;
-
-		if (id < 2) {
+		if (m_current_id < 2) {
 			first = 0;
-			first = 4;
+			last = 4;
 		}
+		if (last > last_id)
+			last = last_id;
+
+		for (unsigned i = 0; i < m_n_songs; i++)
+				m_songs[i]->set(i, "", "");
 
 		for (unsigned i = first; i < last; i++) {
 			const char *artist;
@@ -186,8 +203,6 @@ protected:
 
 			mpd_song_free(cur);
 		}
-
-		mpd_song_free(song);
 
 		mpd_response_finish(Gui::gui->mpd_conn);
 	}
