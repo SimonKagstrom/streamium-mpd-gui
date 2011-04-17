@@ -5,7 +5,7 @@ CPP = cpp
 
 ERROR_FILTER := 2>&1 | sed -e 's/\(.[a-zA-Z]\+\):\([0-9]\+\):/\1(\2):/g'
 
-CFLAGS =-ggdb -Iinclude -Wall  `sdl-config --cflags` -Isrc -I/home/ska/local/include
+CFLAGS =-ggdb -Iinclude -Wall  `sdl-config --cflags` -Isrc -I/home/ska/local/include -O2
 DEFINES =
 LDFLAGS = $(GCOV) `sdl-config --libs` -lSDL_ttf -lSDL_image -lpng -lmpdclient -L/home/ska/local/lib
 
