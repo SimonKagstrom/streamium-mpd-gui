@@ -5,9 +5,9 @@
 class Song
 {
 public:
-	Song(const char *artist, const char *title)
+	Song()
 	{
-		set(~0, artist, title);
+		set(~0, "", "");
 	}
 
 	void set(unsigned id, const char *artist, const char *title)
@@ -55,7 +55,7 @@ public:
 		this->m_n_songs = 4;
 
 		for (unsigned i = 0; i < this->m_n_songs; i++)
-			this->m_songs[i] = new Song("Unknown Artist", "Unknown Song");
+			this->m_songs[i] = new Song();
 
 		/* Update this directly */
 		this->timeoutCallback();
