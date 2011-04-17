@@ -73,6 +73,8 @@ public:
 	{
 		struct mpd_status *status = mpd_status_begin();
 
+		printf("EV: %08x\n", ev);
+
 		switch (ev) {
 		case KEY_PAGEDOWN:
 		{
