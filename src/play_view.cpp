@@ -71,7 +71,7 @@ public:
 
 	void pushEvent(event_t ev)
 	{
-		struct mpd_status *status = mpd_status_begin();
+		struct mpd_status *status = mpd_run_status(Gui::gui->mpd_conn);
 
 		printf("EV: %08x\n", ev);
 
