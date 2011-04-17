@@ -49,7 +49,8 @@ public:
 		TTF_SetFontStyle(this->font, bold ? TTF_STYLE_BOLD | TTF_STYLE_ITALIC: TTF_STYLE_NORMAL);
 
 		p = TTF_RenderText_Blended(this->font, msg, this->clr);
-		panic_if(!p, "TTF error for '%s': %s\n", msg, TTF_GetError());
+		if (!p)
+			return;
 
 		dst = (SDL_Rect){x, y, w, h};
 
