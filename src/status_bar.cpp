@@ -10,6 +10,11 @@ StatusBar::StatusBar() : Menu(Gui::gui->small_font), TimeoutHandler()
 	this->setSelectedBackground(NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
+StatusBar::~StatusBar()
+{
+}
+
+
 
 void StatusBar::queueMessage(const char *fmt, ...)
 {

@@ -10,6 +10,8 @@ class GuiView : public Widget
 public:
 	GuiView();
 
+	virtual ~GuiView();
+
 	virtual void updateTheme();
 
 	virtual void viewPushCallback();

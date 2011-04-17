@@ -32,7 +32,7 @@ class Menu : public Widget
 public:
 	Menu(Font *font);
 
-	~Menu();
+	virtual ~Menu();
 
 	void setFont(Font *font)
 	{

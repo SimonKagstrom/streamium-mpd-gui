@@ -34,7 +34,7 @@ public:
 		this->timer_id = -1;
 	}
 
-	~TimeoutHandler();
+	virtual ~TimeoutHandler();
 
 	void tick()
 	{

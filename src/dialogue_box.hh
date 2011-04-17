@@ -11,6 +11,8 @@ class DialogueBox;
 class DialogueListener : public Listener
 {
 public:
+	virtual ~DialogueListener();
+
 	virtual void selectCallback(DialogueBox *which, int selected);
 
 	virtual void escapeCallback(DialogueBox *which, int selected);

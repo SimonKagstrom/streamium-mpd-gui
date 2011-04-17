@@ -24,6 +24,8 @@ class Widget
 public:
 	Widget();
 
+	virtual ~Widget();
+
 	virtual void pushEvent(event_t ev);
 
 	virtual void runLogic() = 0;

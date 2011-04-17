@@ -13,6 +13,8 @@ class StatusBar : public Menu, public TimeoutHandler
 public:
 	StatusBar();
 
+	virtual ~StatusBar();
+
 	void queueMessage(const char *message, ...);
 
 	virtual void draw(SDL_Surface *where);

@@ -6,6 +6,10 @@ Widget::Widget()
 	this->ev_head = this->ev_tail = 0;
 }
 
+Widget::~Widget()
+{
+}
+
 event_t Widget::popEvent()
 {
 	event_t out;

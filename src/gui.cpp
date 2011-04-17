@@ -35,6 +35,10 @@ GuiView::GuiView()
 {
 }
 
+GuiView::~GuiView()
+{
+}
+
 void GuiView::updateTheme()
 {
 }

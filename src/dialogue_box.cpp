@@ -1,5 +1,9 @@
 #include "dialogue_box.hh"
 
+DialogueListener::~DialogueListener()
+{
+}
+
 void DialogueListener::escapeCallback(DialogueBox *which, int selected)
 {
 	Gui::gui->popDialogueBox();
