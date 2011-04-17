@@ -78,6 +78,7 @@ public:
 		struct mpd_status *status = mpd_run_status(Gui::gui->mpd_conn);
 
 		printf("EV: %08x\n", ev);
+		Gui::gui->m_needs_redraw = true;
 
 		switch (ev) {
 		case KEY_PAGEDOWN:
@@ -168,6 +169,8 @@ protected:
 	{
 		struct mpd_song *song;
 		struct mpd_status *status;
+
+		Gui::gui->m_needs_redraw = true;
 
 		/* Retrigger */
 		TimerController::controller->arm(this, 700);

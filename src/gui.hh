@@ -98,6 +98,7 @@ public:
 	GuiView **views;
 	int n_views;
 
+	bool m_needs_redraw;
 
 	/* MPD stuff */
 	struct mpd_connection *mpd_conn;

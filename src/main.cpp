@@ -27,9 +27,11 @@ static void run(SDL_Surface *screen)
 			Gui::gui->pushEvent(&ev);
 		}
 		Gui::gui->runLogic();
-		Gui::gui->draw(screen);
+		if (Gui::gui->m_needs_redraw) {
+			Gui::gui->draw(screen);
 
-		SDL_Flip(screen);
+			SDL_Flip(screen);
+		}
 
 		now = SDL_GetTicks();
 		if ( (now - last_frame) < MS_PER_FRAME)

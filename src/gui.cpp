@@ -55,6 +55,8 @@ Gui::Gui()
 {
 	this->is_active = false;
 
+	this->m_needs_redraw = false;
+
 	this->focus = NULL;
 	this->screenshot = NULL;
 
@@ -126,6 +128,8 @@ bool Gui::setTheme(const char *path)
 void Gui::runLogic(void)
 {
 	GuiView *cur_view = this->peekView();
+
+	this->m_needs_redraw = false;
 
 	this->status_bar->runLogic();
 	TimerController::controller->tick();
