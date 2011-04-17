@@ -162,13 +162,21 @@ protected:
 		}
 		m_current_id = id;
 
-		unsigned first = id < m_n_songs / 2 + 1 ? 0 : id - m_n_songs / 2 + 1;
-		unsigned last = id < m_n_songs / 2 + 1 ? 4 : id + m_n_songs / 2 + 1;
+		unsigned first = id - m_n_songs / 2 + 1;
+		unsigned last = id + m_n_songs / 2 + 1;
+
+		if (id < 2) {
+			first = 0;
+			first = 4;
+		}
 
 		for (unsigned i = first; i < last; i++) {
 			const char *artist;
 			const char *title;
 			struct mpd_song *cur = mpd_run_get_queue_song_id(Gui::gui->mpd_conn, i);
+
+			if (!cur)
+				break;
 
 			artist = mpd_song_get_tag(cur, MPD_TAG_ARTIST, 0);
 			title = mpd_song_get_tag(cur, MPD_TAG_TITLE, 0);
