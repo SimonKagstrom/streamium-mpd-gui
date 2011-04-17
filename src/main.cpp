@@ -43,7 +43,7 @@ static SDL_Surface *init(void)
 {
 	struct SDL_Surface *screen;
 
-	screen = SDL_SetVideoMode(320, 240, 16,	SDL_DOUBLEBUF);
+	screen = SDL_SetVideoMode(320, 240, 24,	SDL_HWSURFACE);
 	panic_if(!screen, "Cannot initialize video: %s\n", SDL_GetError());
 	TTF_Init();
 

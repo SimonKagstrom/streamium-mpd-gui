@@ -40,6 +40,6 @@ clean:
 
 $(TARGET): $(OBJS)
 	@echo LD $@
-	@$(LD) $(LDFLAGS) -o $@ $+
+	@$(LD) $(LDFLAGS) -o $@ $+ $(LDFLAGS)
 
 -include $(DEPS)
