@@ -54,6 +54,10 @@ public:
 		this->m_current_id = ~0;
 		this->m_n_songs = 4;
 
+		m_song_duration = 0;
+		m_song_cur_pos = 0;
+		m_duration_color = SDL_MapRGB(SDL_GetVideoInfo()->vfmt, 255,255,255);
+
 		for (unsigned i = 0; i < this->m_n_songs; i++)
 			this->m_songs[i] = new Song();
 
@@ -127,6 +131,7 @@ public:
 	{
 		SDL_Surface *playing = Gui::gui->pause;
 		SDL_Rect dst;
+		SDL_Rect duration_rect;
 
 		if (this->m_playing)
 			playing = Gui::gui->play;
@@ -134,6 +139,14 @@ public:
 		/* Blit play/pause*/
 		dst = (SDL_Rect){320-40, 0,320,40};
 		SDL_BlitSurface(playing, NULL, where, &dst);
+
+		/* And the duration */
+		int dur_w = 0;
+		if (m_song_duration != 0)
+			dur_w = (m_song_cur_pos * 280) / m_song_duration;
+
+		duration_rect = (SDL_Rect){10, 5, dur_w, 10};
+		SDL_FillRect(where, &duration_rect, m_duration_color);
 
 		for (unsigned i = 0; i < this->m_n_songs; i++) {
 			bool bold = false;
@@ -167,12 +180,14 @@ protected:
 		unsigned last_id = mpd_status_get_queue_length(status);
 
 		this->m_playing = (state == MPD_STATE_PLAY);
+		m_song_cur_pos = mpd_status_get_elapsed_ms(status) / 1000;
 		mpd_status_free(status);
 
 		song = mpd_run_current_song(Gui::gui->mpd_conn);
 		if (!song)
 			return;
 
+		m_song_duration = mpd_song_get_duration(song);
 		m_current_id = mpd_song_get_id(song);
 		mpd_song_free(song);
 
@@ -211,6 +226,11 @@ protected:
 
 	bool m_playing;
 	unsigned m_current_id;
+
+	unsigned m_song_duration;
+	unsigned m_song_cur_pos;
+
+	uint32_t m_duration_color;
 
 	Song *m_songs[4];
 	unsigned m_n_songs;
