@@ -292,7 +292,7 @@ SDL_Surface *Gui::loadThemeImage(const char *dir, const char *what)
 
 	if (!img)
 		return NULL;
-	out = SDL_DisplayFormatAlpha(img);
+	out = SDL_DisplayFormat(img);
 	SDL_FreeSurface(img);
 
 	return out;
