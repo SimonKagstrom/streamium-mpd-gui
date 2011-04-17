@@ -5,7 +5,7 @@
 #include "utils.hh"
 #include "timer.hh"
 
-#define MS_PER_FRAME 100
+#define MS_PER_FRAME 150
 #define TICKS_PER_MS (MS_PER_FRAME / 2)
 
 static void run(SDL_Surface *screen)
@@ -35,7 +35,7 @@ static void run(SDL_Surface *screen)
 		if ( (now - last_frame) < MS_PER_FRAME)
 			SDL_Delay( MS_PER_FRAME - (now - last_frame));
 
-		last_frame = now;
+		last_frame = SDL_GetTicks();
 	}
 }
 
@@ -51,7 +51,8 @@ static SDL_Surface *init(void)
 			"Can't do GetVideoInfo()!\n");
 
 
-	screen = SDL_SetVideoMode(320, 240, info->vfmt->BitsPerPixel, SDL_DOUBLEBUF);
+	screen = SDL_SetVideoMode(320, 240, info->vfmt->BitsPerPixel,
+			SDL_HWSURFACE);
 	panic_if(!screen, "Cannot initialize video: %s\n", SDL_GetError());
 	TTF_Init();
 
