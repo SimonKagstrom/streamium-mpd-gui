@@ -66,7 +66,7 @@ public:
 		if (!p) {
 			TTF_SetFontStyle(this->font, style);
 
-			p = TTF_RenderText_Blended(this->font, msg, this->clr);
+			p = TTF_RenderUTF8_Blended(this->font, msg, this->clr);
 			if (!p)
 				return;
 			this->m_cache[this->m_cache_replace].replace(p, msg, style);
