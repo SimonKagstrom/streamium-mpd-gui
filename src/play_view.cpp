@@ -57,6 +57,7 @@ public:
 		m_song_duration = 0;
 		m_song_cur_pos = 0;
 		m_duration_color = SDL_MapRGB(SDL_GetVideoInfo()->vfmt, 255,255,255);
+		m_font_h = Gui::gui->default_font->getHeight("A");
 
 		for (unsigned i = 0; i < this->m_n_songs; i++)
 			this->m_songs[i] = new Song();
@@ -156,10 +157,10 @@ public:
 				bold = true;
 
 			Gui::gui->default_font->draw(where,
-					m_songs[i]->getArtist(), 10, 40 + i * 40,
+					m_songs[i]->getArtist(), 10, 40 + (i * 2) * (m_font_h + 5),
 					310, 20, bold);
 			Gui::gui->default_font->draw(where,
-					m_songs[i]->getTitle(), 10, 60  + i * 40,
+					m_songs[i]->getTitle(), 10, 40 + (i * 2 + 1) * (m_font_h + 5),
 					310, 20, bold);
 		}
 	}
@@ -227,6 +228,7 @@ protected:
 		mpd_response_finish(Gui::gui->mpd_conn);
 	}
 
+	int m_font_h;
 	bool m_playing;
 	unsigned m_current_id;
 
