@@ -107,8 +107,8 @@ bool Gui::setTheme(const char *path)
 	this->play = this->loadThemeImage(path, "play.png");
 	this->pause = this->loadThemeImage(path, "pause.png");
 
-	this->default_font = this->loadThemeFont(path, "font.ttf", 12);
-	this->small_font = this->loadThemeFont(path, "font.ttf", 10);
+	this->default_font = this->loadThemeFont(path, "font.ttf", 14);
+	this->small_font = this->loadThemeFont(path, "font.ttf", 12);
 
 	this->mpd_conn = mpd_connection_new(NULL, 0, 30000);
 	panic_if (this->mpd_conn == NULL,
