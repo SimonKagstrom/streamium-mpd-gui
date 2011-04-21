@@ -17,9 +17,6 @@ static void run(SDL_Surface *screen)
 		SDL_Event ev;
 		Uint32 now;
 
-		if (!Gui::gui->is_active)
-			break;
-
 		while (SDL_PollEvent(&ev)) {
 			if (ev.type == SDL_QUIT)
 				exit(1);
@@ -60,7 +57,6 @@ static SDL_Surface *init(void)
 
 	TimerController::init(TICKS_PER_MS);
 	Gui::init();
-	Gui::gui->activate();
 
 	return screen;
 }

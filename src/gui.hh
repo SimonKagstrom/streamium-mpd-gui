@@ -32,8 +32,6 @@ public:
 
 	bool setTheme(const char *path);
 
-	void activate();
-
 	void runLogic(void);
 
 	void pushEvent(event_t ev);
@@ -66,7 +64,6 @@ public:
 
 	Font *loadThemeFont(const char *dir, const char *what, int size);
 
-	bool is_active;
 	Menu *focus; /* Where the focus goes */
 	Menu *main_menu;
 	SDL_Surface *screenshot;

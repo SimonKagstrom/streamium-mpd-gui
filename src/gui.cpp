@@ -54,8 +54,6 @@ void GuiView::viewPopCallback()
 
 Gui::Gui()
 {
-	this->is_active = false;
-
 	this->m_needs_redraw = true;
 
 	this->focus = NULL;
@@ -133,7 +131,7 @@ void Gui::runLogic(void)
 	this->status_bar->runLogic();
 	TimerController::controller->tick();
 
-	if (!this->is_active || !cur_view)
+	if (!cur_view)
 		return;
 	if (this->dlg)
 		this->dlg->runLogic();
@@ -179,8 +177,6 @@ GuiView *Gui::popView()
 		free(this->views);
 		this->views = NULL;
 		this->n_views = 0;
-		/* Deactivate when no views are left */
-		this->is_active = false;
 
 		return NULL;
 	}
@@ -207,11 +203,10 @@ void Gui::pushEvent(event_t ev)
 
 	if (ev == KEY_ENTER_MENU)
 	{
-		this->activate();
 		return;
 	}
 
-	if (!this->is_active || !cur_view)
+	if (!cur_view)
 		return;
 
 	if (this->dlg)
@@ -268,7 +263,7 @@ void Gui::draw(SDL_Surface *where)
 {
 	GuiView *cur_view = this->peekView();
 
-	if (!this->is_active || !cur_view)
+	if (!cur_view)
 	{
 		this->status_bar->draw(where);
 		return;
@@ -281,13 +276,6 @@ void Gui::draw(SDL_Surface *where)
 	 this->status_bar->draw(where);
 
 	this->m_needs_redraw = false;
-}
-
-void Gui::activate()
-{
-	this->is_active = true;
-
-	this->pushView(this->pv);
 }
 
 SDL_Surface *Gui::loadThemeImage(const char *dir, const char *what)
@@ -330,4 +318,7 @@ void Gui::init()
 	}
 
 	Gui::gui->status_bar->queueMessage("Press Menu key for the menu!");
+
+	/* Start in the play view */
+	Gui::gui->pushView(Gui::gui->pv);
 }
