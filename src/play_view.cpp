@@ -25,7 +25,6 @@ public:
 	void pushEvent(event_t ev)
 	{
 		printf("EV: %08x\n", ev);
-		Gui::gui->m_needs_redraw = true;
 
 		switch (ev) {
 		case KEY_PAGEDOWN:

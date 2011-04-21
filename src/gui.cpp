@@ -201,6 +201,7 @@ void Gui::pushEvent(event_t ev)
 {
 	GuiView *cur_view = this->peekView();
 
+	Gui::gui->m_needs_redraw = true;
 	if (ev == KEY_ENTER_MENU)
 	{
 		this->pushView(this->mv);
