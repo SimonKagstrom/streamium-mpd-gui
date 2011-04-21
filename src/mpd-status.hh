@@ -64,6 +64,7 @@ public:
 
 		m_song_duration = 0;
 		m_current_elapsed_secs = 0;
+		m_queue_length = 0;
 
 		for (unsigned i = 0; i < this->m_n_songs; i++)
 			m_active_songs[i] = new Song();
@@ -105,6 +106,11 @@ public:
 	int getNumberOfQueueSongs()
 	{
 		return 4;
+	}
+
+	int getQueueLength()
+	{
+		return m_queue_length;
 	}
 
 	Song *getCurrentSong()
@@ -170,6 +176,7 @@ protected:
 		if (!status)
 			return;
 
+		m_queue_length = mpd_status_get_queue_length(status);
 		enum mpd_state state = mpd_status_get_state(status);
 		unsigned last_id = mpd_status_get_queue_length(status);
 
@@ -233,6 +240,8 @@ protected:
 	Song *m_active_songs[4];
 	Song *m_current_song;
 	unsigned m_n_songs;
+
+	unsigned m_queue_length;
 
 };
 

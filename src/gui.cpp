@@ -7,6 +7,7 @@
 #include "status_bar.hh"
 #include "gui.hh"
 #include "sdl_ttf_font.hh"
+#include "mpd-status.hh"
 
 extern SDL_Surface *screen;
 
@@ -55,7 +56,7 @@ Gui::Gui()
 {
 	this->is_active = false;
 
-	this->m_needs_redraw = false;
+	this->m_needs_redraw = true;
 
 	this->focus = NULL;
 	this->screenshot = NULL;
@@ -128,8 +129,6 @@ bool Gui::setTheme(const char *path)
 void Gui::runLogic(void)
 {
 	GuiView *cur_view = this->peekView();
-
-	this->m_needs_redraw = false;
 
 	this->status_bar->runLogic();
 	TimerController::controller->tick();
@@ -280,6 +279,8 @@ void Gui::draw(SDL_Surface *where)
 	 if (this->dlg)
 		 this->dlg->draw(where);
 	 this->status_bar->draw(where);
+
+	this->m_needs_redraw = false;
 }
 
 void Gui::activate()
