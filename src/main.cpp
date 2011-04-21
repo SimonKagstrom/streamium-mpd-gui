@@ -5,7 +5,7 @@
 #include "utils.hh"
 #include "timer.hh"
 
-#define MS_PER_FRAME 150
+#define MS_PER_FRAME 75
 #define TICKS_PER_MS (MS_PER_FRAME / 2)
 
 static void run(SDL_Surface *screen)
