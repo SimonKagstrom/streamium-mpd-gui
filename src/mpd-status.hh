@@ -21,6 +21,9 @@ public:
 		snprintf(m_title, sizeof(m_title),
 				"   %s", title);
 
+		if (song_duration == 0)
+			song_duration = 1;
+
 		m_song_duration = song_duration;
 	}
 
