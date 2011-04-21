@@ -203,6 +203,7 @@ void Gui::pushEvent(event_t ev)
 
 	if (ev == KEY_ENTER_MENU)
 	{
+		this->pushView(this->mv);
 		return;
 	}
 
@@ -245,6 +246,8 @@ void Gui::pushEvent(SDL_Event *ev)
 			this->pushEvent(KEY_SELECT);
 			break;
 		case SDLK_HOME:
+			this->pushEvent(KEY_ENTER_MENU);
+			break;
 		case SDLK_ESCAPE:
 			this->pushEvent(KEY_ESCAPE);
 			break;
