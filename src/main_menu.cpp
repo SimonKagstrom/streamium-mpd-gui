@@ -4,9 +4,13 @@
 
 const char *main_menu_messages[14] = {
         /*00*/          "Function",
-        /*01*/          "^|HD|CD|FM radio",
-        /*02*/          "Settings",
-        /*03*/          "^|Setup spotify",
+        /*01*/          "^|HD/Spotify|CD|FM radio",
+        /*02*/          "Setup play queue",
+        /*04*/          "#",
+        /*05*/          "#",
+        /*06*/          "#",
+        /*07*/          "Settings",
+        /*08*/          "^|Setup spotify (NYI!)",
         NULL
 };
 
@@ -48,9 +52,10 @@ public:
 	{
 		switch (which)
 		{
-		case 0: /* Insert disc */
+		case 0:
+			break;
 
-		case 1: /* Exit */
+		case 1:
 			break;
 		}
 	}
@@ -61,7 +66,7 @@ public:
 
 	virtual void escapeCallback(int which)
 	{
-		Gui::gui->exitMenu();
+		Gui::gui->popView();
 	}
 
 private:
@@ -79,7 +84,7 @@ public:
 		this->menu = new MainMenu(Gui::gui->default_font);
 	}
 
-	~MainView()
+	virtual ~MainView()
 	{
 		delete this->menu;
 	}
