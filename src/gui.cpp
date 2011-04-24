@@ -31,6 +31,7 @@ static const char *get_theme_path(const char *dir, const char *what)
 /* These are a bit of special cases... */
 #include "main_menu.cpp"
 #include "play_view.cpp"
+#include "file_menu.cpp"
 
 GuiView::GuiView()
 {
@@ -82,6 +83,8 @@ Gui::Gui()
 
 	this->dlg = NULL;
 	this->mv = NULL;
+	this->pv = NULL;
+	this->fv = NULL;
 
 	this->mpd_conn = NULL;
 }
@@ -120,6 +123,7 @@ bool Gui::setTheme(const char *path)
 
 	this->mv = new MainView();
 	this->pv = new PlayView();
+	this->fv = new FileView(true);
 
 	return true;
 }

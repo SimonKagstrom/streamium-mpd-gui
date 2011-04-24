@@ -22,6 +22,7 @@ class GuiView;
 
 class MainView;
 class PlayView;
+class FileView;
 
 class Gui
 {
@@ -84,6 +85,7 @@ public:
 
     MainView *mv;
     PlayView *pv;
+    FileView *fv;
 
     const char *theme_base_path;
     const char *tmp_path;

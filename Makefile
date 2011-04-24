@@ -11,7 +11,7 @@ LDFLAGS = $(GCOV) `sdl-config --libs` -lSDL_ttf -lSDL_image -lpng -lmpdclient -L
 
 
 CPP_SRCS=src/dialogue_box.cpp src/timer.cpp src/main.cpp \
-	src/gui.cpp src/menu.cpp src/utils.cpp \
+	src/gui.cpp src/menu.cpp src/utils.cpp src/file_browser.cpp \
 	src/listener.cpp src/status_bar.cpp src/widget.cpp
 
 
