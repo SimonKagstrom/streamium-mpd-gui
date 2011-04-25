@@ -72,24 +72,12 @@ static inline void *xrealloc(void *ptr, size_t sz)
 
 TTF_Font *read_and_alloc_font(const char *path, int pt_size);
 
-bool ext_matches_list(const char *name, const char **exts);
-
-const char **get_file_list(const char *base_dir, const char *exts[]);
-
 const char *construct_path(const char *base_dir, const char *file);
-
-void *sdl_surface_to_png(SDL_Surface *src, size_t *out_sz);
 
 SDL_Surface *sdl_surface_from_data(void *data, size_t sz);
 
 void highlight_background(SDL_Surface *where, Font *font,
 		SDL_Surface *bg_left, SDL_Surface *bg_middle, SDL_Surface *bg_right,
 		int x, int y, int w, int h);
-
-const char *ip_to_str(uint8_t *ip_in);
-
-const char *region_to_str(int region);
-
-SDL_Surface *sdl_surface_8bit_copy(SDL_Surface *src);
 
 #endif /* __UTILS_H__ */
