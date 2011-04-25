@@ -208,8 +208,14 @@ void Gui::pushEvent(event_t ev)
 	GuiView *cur_view = this->peekView();
 
 	Gui::gui->m_needs_redraw = true;
-	if (ev == KEY_ENTER_MENU)
-	{
+	if (ev == KEY_VOL_UP) {
+		printf("Volume up NYI\n");
+		return;
+	} else if (ev == KEY_VOL_DOWN) {
+		printf("Volume down NYI\n");
+		return;
+	}
+	else if (ev == KEY_ENTER_MENU) {
 		if (cur_view != this->mv)
 			this->pushView(this->mv);
 		return;
@@ -258,6 +264,12 @@ void Gui::pushEvent(SDL_Event *ev)
 			break;
 		case SDLK_ESCAPE:
 			this->pushEvent(KEY_ESCAPE);
+			break;
+		case SDLK_PLUS:
+			this->pushEvent(KEY_VOL_UP);
+			break;
+		case SDLK_MINUS:
+			this->pushEvent(KEY_VOL_DOWN);
 			break;
 		default:
 			break;
