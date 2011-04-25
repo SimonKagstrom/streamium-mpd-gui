@@ -6,9 +6,9 @@ const char *main_menu_messages[14] = {
         /*00*/          "Function",
         /*01*/          "^|HD/Spotify|CD|FM radio",
         /*02*/          "Setup play queue",
-        /*04*/          "#",
-        /*05*/          "#",
-        /*06*/          "#",
+        /*04*/          " ",
+        /*05*/          " ",
+        /*06*/          " ",
         /*07*/          "Settings",
         /*08*/          "^|Setup spotify (NYI!)",
         NULL
