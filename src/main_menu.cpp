@@ -31,6 +31,12 @@ public:
 		switch (which)
 		{
 		case 0:
+			if (this->p_submenus[0].sel == 1) { // CD
+				mpd_send_clear(Gui::gui->mpd_conn);
+				mpd_send_add(Gui::gui->mpd_conn, "cdda://");
+				mpd_response_finish(Gui::gui->mpd_conn);
+			} else if (this->p_submenus[0].sel == 2) // Radio
+				Gui::gui->status_bar->queueMessage("NYI!");
 			break;
 
 		case 2:
