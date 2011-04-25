@@ -123,7 +123,7 @@ bool Gui::setTheme(const char *path)
 
 	this->mv = new MainView();
 	this->pv = new PlayView();
-	this->fv = new FileView(true);
+	this->fv = new FileView(false);
 
 	return true;
 }

@@ -20,6 +20,8 @@ public:
 
 	void addSong(const char *fileName);
 
+	int addRecursively(const char *path);
+
 	void updateList();
 
 	const char **addEntry(const char **list, bool **is_dir, int *n_entries, const char *entry, bool dir);
@@ -74,9 +76,9 @@ public:
 	virtual void selectCallback(int which)
 	{
 		const char *fileName = this->pp_msgs[this->cur_sel];
-		int n = 1;
+		int n;
 
-		m_view->addSong(fileName);
+		n = m_view->addRecursively(fileName);
 		Gui::gui->status_bar->queueMessage("Queued %d song%s",
 				n, n == 1 ? "" : "s");
 	}
@@ -138,6 +140,87 @@ void FileView::pushPath(const char *path)
 void FileView::addSong(const char *fileName)
 {
 	mpd_run_add(Gui::gui->mpd_conn, fileName);
+}
+
+int FileView::addRecursively(const char *path)
+{
+	const char **paths;
+	const char **songs = NULL;
+	int n_paths = 1;
+	int n_songs = 0;
+	int i = 0;
+	int out = 0;
+
+	paths = (const char **)xmalloc(sizeof(const char *));
+	paths[0] = xstrdup(path);
+
+	while (i < n_paths) {
+		bool res = mpd_send_list_meta(Gui::gui->mpd_conn, paths[i]);
+
+		if (!res)
+			break;
+
+		struct mpd_entity *entity;
+
+		while ( (entity = mpd_recv_entity(Gui::gui->mpd_conn)) ) {
+			const struct mpd_song *song = NULL;
+			const struct mpd_directory *dir = NULL;
+			const struct mpd_playlist *pl = NULL;
+
+			switch (mpd_entity_get_type(entity)) {
+			case MPD_ENTITY_TYPE_UNKNOWN:
+				break;
+
+			case MPD_ENTITY_TYPE_SONG:
+				song = mpd_entity_get_song(entity);
+				if (song) {
+					n_songs++;
+					songs = (const char **)xrealloc(songs, sizeof(char *) * n_songs);
+					songs[n_songs - 1] = xstrdup(mpd_song_get_uri(song));
+				}
+				break;
+
+			case MPD_ENTITY_TYPE_DIRECTORY:
+				dir = mpd_entity_get_directory(entity);
+				if (dir && !m_playlist) {
+					int cur = n_paths;
+
+					n_paths++;
+					paths = (const char **)xrealloc(paths, sizeof(char *) * (n_paths + 1));
+					paths[cur] = xstrdup(mpd_directory_get_path(dir));
+				}
+
+				break;
+
+			case MPD_ENTITY_TYPE_PLAYLIST:
+				pl = mpd_entity_get_playlist(entity);
+				if (pl && m_playlist) {
+					int cur = n_paths;
+
+					n_paths++;
+					paths = (const char **)xrealloc(paths, sizeof(char *) * (n_paths + 1));
+					paths[cur] = xstrdup(mpd_playlist_get_path(pl));
+				}
+
+				break;
+			}
+
+			mpd_entity_free(entity);
+		}
+
+		i++;
+	}
+	for (int j = 0; j < i; j++)
+		free((void *)paths[j]);
+	free(paths);
+
+	for (int j = 0; j < n_songs; j++) {
+		addSong(songs[j]);
+		free((void *)songs[j]);
+	}
+	free(songs);
+
+	return n_songs;
 }
 
 
