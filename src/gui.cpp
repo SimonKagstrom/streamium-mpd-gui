@@ -216,8 +216,10 @@ void Gui::pushEvent(event_t ev)
 		return;
 	}
 	else if (ev == KEY_ENTER_MENU) {
-		if (cur_view != this->mv)
+		if (cur_view == this->pv)
 			this->pushView(this->mv);
+		else
+			this->popView();
 		return;
 	}
 
