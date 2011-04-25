@@ -3,6 +3,16 @@
 #include "timer.hh"
 #include "utils.hh"
 
+void TimeoutHandler::tick()
+{
+	this->timeout--;
+	if (this->timeout == 0) {
+		this->timeoutCallback();
+		Gui::gui->m_needs_redraw = true;
+	}
+}
+
+
 TimeoutHandler::~TimeoutHandler()
 {
 	/* If we haven't timed out yet, disarm us */

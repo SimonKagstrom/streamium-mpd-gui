@@ -170,8 +170,6 @@ protected:
 		struct mpd_song *song;
 		struct mpd_status *status;
 
-		Gui::gui->m_needs_redraw = true;
-
 		/* Retrigger */
 		TimerController::controller->arm(this, 700);
 

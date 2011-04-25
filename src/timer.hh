@@ -36,12 +36,7 @@ public:
 
 	virtual ~TimeoutHandler();
 
-	void tick()
-	{
-		this->timeout--;
-		if (this->timeout == 0)
-			this->timeoutCallback();
-	}
+	void tick();
 
 	virtual void timeoutCallback() = 0;
 
