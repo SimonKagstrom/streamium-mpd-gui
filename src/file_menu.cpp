@@ -130,18 +130,14 @@ const char **FileView::addEntry(const char **list, bool **is_dir_list, int *n_en
 
 void FileView::pushPath(const char *path)
 {
-	const char *tmp = construct_path(m_path, path);
-
-	snprintf(m_path, sizeof(m_path), "%s", tmp);
-	updateList();
-
-	free((void *)tmp);
+	snprintf(m_path, sizeof(m_path), "%s", path);
 }
 
 void FileView::addSong(const char *fileName)
 {
 	mpd_run_add(Gui::gui->mpd_conn, fileName);
 }
+
 
 void FileView::updateList()
 {
@@ -162,7 +158,6 @@ void FileView::updateList()
 
 		switch (mpd_entity_get_type(entity)) {
 		case MPD_ENTITY_TYPE_UNKNOWN:
-			printf("MIBB!!!\n");
 			break;
 
 		case MPD_ENTITY_TYPE_SONG:
