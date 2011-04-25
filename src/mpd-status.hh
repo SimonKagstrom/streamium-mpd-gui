@@ -188,12 +188,15 @@ protected:
 		mpd_status_free(status);
 
 		song = mpd_run_current_song(Gui::gui->mpd_conn);
-		if (!song)
-			return;
-
-		m_song_duration = mpd_song_get_duration(song);
-		m_current_id = mpd_song_get_id(song);
-		mpd_song_free(song);
+		if (song) {
+			m_song_duration = mpd_song_get_duration(song);
+			m_current_id = mpd_song_get_id(song);
+			mpd_song_free(song);
+		}
+		else {
+			m_current_id = 0;
+			m_song_duration = 1;
+		}
 
 		unsigned first = m_current_id - m_n_songs / 2 + 1;
 		unsigned last = m_current_id + m_n_songs / 2 + 1;
@@ -211,6 +214,7 @@ protected:
 		for (unsigned i = first; i < last; i++) {
 			const char *artist;
 			const char *title;
+			const char *uri;
 			int duration;
 			struct mpd_song *cur = mpd_run_get_queue_song_id(Gui::gui->mpd_conn, i);
 			unsigned id = mpd_song_get_id(cur);
@@ -220,10 +224,14 @@ protected:
 
 			artist = mpd_song_get_tag(cur, MPD_TAG_ARTIST, 0);
 			title = mpd_song_get_tag(cur, MPD_TAG_TITLE, 0);
-			duration = mpd_song_get_duration(song);
+			duration = mpd_song_get_duration(cur);
+			uri = mpd_song_get_uri(cur);
 
 			if (artist && title)
 				m_active_songs[i - first]->set(i, artist, title, duration);
+			else
+				m_active_songs[i - first]->set(i, uri, "(Unset)", duration);
+
 			if (id == m_current_id)
 				m_current_song = m_active_songs[i - first];
 
