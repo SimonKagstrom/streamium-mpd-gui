@@ -63,6 +63,9 @@ public:
 		if (dx > 0 && m_is_dir[this->cur_sel]) {
 			printf("Go down into %s\n", this->pp_msgs[this->cur_sel]);
 			m_view->pushPath(this->pp_msgs[this->cur_sel]);
+		} else if (dx < 0) {
+			Gui::gui->popView();
+			return 0;
 		}
 
 		return this->cur_sel;
@@ -144,7 +147,6 @@ void FileView::updateList()
 {
 	bool res = mpd_send_list_meta(Gui::gui->mpd_conn, m_path);
 
-	printf("XXX: %s -> %d\n", m_path, res);
 	if (!res)
 		return;
 
@@ -166,7 +168,6 @@ void FileView::updateList()
 		case MPD_ENTITY_TYPE_SONG:
 			song = mpd_entity_get_song(entity);
 			text = addEntry(text, &is_dir, &n, mpd_song_get_uri(song), false);
-			printf("SOING: %s\n", mpd_song_get_uri(song));
 			break;
 
 		case MPD_ENTITY_TYPE_DIRECTORY:
