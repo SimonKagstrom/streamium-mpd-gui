@@ -5,8 +5,8 @@
 const char *main_menu_messages[14] = {
         /*00*/          "Function",
         /*01*/          "^|HD/Spotify|CD|FM radio",
-        /*02*/          "Setup play queue",
-        /*04*/          " ",
+        /*02*/          "Browse files",
+        /*04*/          "Browse playlists",
         /*05*/          " ",
         /*06*/          " ",
         /*07*/          "Settings",
@@ -57,6 +57,9 @@ public:
 
 		case 2:
 			Gui::gui->pushView((GuiView*)Gui::gui->fv);
+			break;
+		case 3:
+			Gui::gui->pushView((GuiView*)Gui::gui->plv);
 			break;
 		}
 	}

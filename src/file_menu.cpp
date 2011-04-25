@@ -62,7 +62,7 @@ public:
 	{
 		this->cur_sel = this->getNextEntry(dy);
 
-		if (dx > 0 && m_is_dir[this->cur_sel]) {
+		if (dx > 0 && m_is_dir[this->cur_sel] && !m_view->m_playlist) {
 			printf("Go down into %s\n", this->pp_msgs[this->cur_sel]);
 			m_view->pushPath(this->pp_msgs[this->cur_sel]);
 		} else if (dx < 0) {
@@ -76,11 +76,17 @@ public:
 	virtual void selectCallback(int which)
 	{
 		const char *fileName = this->pp_msgs[this->cur_sel];
-		int n;
 
-		n = m_view->addRecursively(fileName);
-		Gui::gui->status_bar->queueMessage("Queued %d song%s",
-				n, n == 1 ? "" : "s");
+		if (m_view->m_playlist) {
+			mpd_run_load(Gui::gui->mpd_conn, fileName);
+			Gui::gui->status_bar->queueMessage("Queued playlist %s",
+					fileName);
+		} else {
+			int n = m_view->addRecursively(fileName);
+
+			Gui::gui->status_bar->queueMessage("Queued %d song%s",
+					n, n == 1 ? "" : "s");
+		}
 	}
 
 	virtual void escapeCallback(int which)
@@ -149,13 +155,14 @@ int FileView::addRecursively(const char *path)
 	int n_paths = 1;
 	int n_songs = 0;
 	int i = 0;
-	int out = 0;
 
 	paths = (const char **)xmalloc(sizeof(const char *));
 	paths[0] = xstrdup(path);
 
 	while (i < n_paths) {
 		bool res = mpd_send_list_meta(Gui::gui->mpd_conn, paths[i]);
+
+		printf("VOBB add: %s: %d\n", paths[i], res);
 
 		if (!res)
 			break;
@@ -167,6 +174,7 @@ int FileView::addRecursively(const char *path)
 			const struct mpd_directory *dir = NULL;
 			const struct mpd_playlist *pl = NULL;
 
+			printf("XXX\n");
 			switch (mpd_entity_get_type(entity)) {
 			case MPD_ENTITY_TYPE_UNKNOWN:
 				break;
@@ -200,6 +208,7 @@ int FileView::addRecursively(const char *path)
 					n_paths++;
 					paths = (const char **)xrealloc(paths, sizeof(char *) * (n_paths + 1));
 					paths[cur] = xstrdup(mpd_playlist_get_path(pl));
+					printf("XXX: %s\n", paths[cur]);
 				}
 
 				break;
@@ -251,12 +260,17 @@ void FileView::updateList()
 			break;
 
 		case MPD_ENTITY_TYPE_DIRECTORY:
-			dir = mpd_entity_get_directory(entity);
-			text = addEntry(text, &is_dir, &n, mpd_directory_get_path(dir), true);
+			if (!m_playlist) {
+				dir = mpd_entity_get_directory(entity);
+				text = addEntry(text, &is_dir, &n, mpd_directory_get_path(dir), true);
+			}
 			break;
 
 		case MPD_ENTITY_TYPE_PLAYLIST:
-			pl = mpd_entity_get_playlist(entity);
+			if (m_playlist) {
+				pl = mpd_entity_get_playlist(entity);
+				text = addEntry(text, &is_dir, &n, mpd_playlist_get_path(pl), true);
+			}
 			break;
 		}
 

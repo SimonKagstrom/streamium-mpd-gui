@@ -85,6 +85,7 @@ Gui::Gui()
 	this->mv = NULL;
 	this->pv = NULL;
 	this->fv = NULL;
+	this->plv = NULL;
 
 	this->mpd_conn = NULL;
 }
@@ -124,6 +125,7 @@ bool Gui::setTheme(const char *path)
 	this->mv = new MainView();
 	this->pv = new PlayView();
 	this->fv = new FileView(false);
+	this->plv = new FileView(true);
 
 	return true;
 }

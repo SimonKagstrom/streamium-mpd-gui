@@ -86,6 +86,7 @@ public:
     MainView *mv;
     PlayView *pv;
     FileView *fv;
+    FileView *plv;
 
     const char *theme_base_path;
     const char *tmp_path;
