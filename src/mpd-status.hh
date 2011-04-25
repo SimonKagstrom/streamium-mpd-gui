@@ -217,10 +217,12 @@ protected:
 			const char *uri;
 			int duration;
 			struct mpd_song *cur = mpd_run_get_queue_song_id(Gui::gui->mpd_conn, i);
-			unsigned id = mpd_song_get_id(cur);
+			unsigned id;
 
 			if (!cur)
 				break;
+
+			id = mpd_song_get_id(cur);
 
 			artist = mpd_song_get_tag(cur, MPD_TAG_ARTIST, 0);
 			title = mpd_song_get_tag(cur, MPD_TAG_TITLE, 0);
