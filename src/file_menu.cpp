@@ -131,6 +131,8 @@ const char **FileView::addEntry(const char **list, bool **is_dir_list, int *n_en
 void FileView::pushPath(const char *path)
 {
 	snprintf(m_path, sizeof(m_path), "%s", path);
+
+	updateList();
 }
 
 void FileView::addSong(const char *fileName)
