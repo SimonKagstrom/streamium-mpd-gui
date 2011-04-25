@@ -208,7 +208,8 @@ void Gui::pushEvent(event_t ev)
 	Gui::gui->m_needs_redraw = true;
 	if (ev == KEY_ENTER_MENU)
 	{
-		this->pushView(this->mv);
+		if (cur_view != this->mv)
+			this->pushView(this->mv);
 		return;
 	}
 
