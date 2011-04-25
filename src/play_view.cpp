@@ -77,6 +77,16 @@ public:
 		duration_rect = (SDL_Rect){10, 5, dur_w, 10};
 		SDL_FillRect(where, &duration_rect, m_duration_color);
 
+		char time_buf[80];
+		snprintf(time_buf, sizeof(time_buf), "%02d:%02d / %02d:%02d",
+				mpd_status->getCurrentSongPos() / 60,
+				mpd_status->getCurrentSongPos() % 60,
+				current_song->getDuration() / 60,
+				current_song->getDuration() % 60);
+
+		Gui::gui->small_font->draw(where, time_buf, 10, 16,
+				310, 20, false);
+
 		Song **queue_songs = mpd_status->getCurrentQueueSongs();
 		for (int i = 0; i < mpd_status->getNumberOfQueueSongs(); i++) {
 			bool bold = false;
