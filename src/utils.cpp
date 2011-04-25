@@ -83,6 +83,20 @@ bool ext_matches_list(const char *name, const char **exts)
 	return false;
 }
 
+const char *construct_path(const char *base_dir, const char *file)
+{
+	size_t len = strlen(base_dir) + strlen(file) + 2;
+	char *out = (char *)xmalloc(len);
+	const char *delim = "/";
+
+	if (strcmp(base_dir, "") == 0)
+		delim = "";
+
+	sprintf(out, "%s%s%s", base_dir, delim, file);
+
+	return out;
+}
+
 const char **get_file_list(const char *base_dir, const char *exts[])
 {
 	DIR *d = opendir(base_dir);

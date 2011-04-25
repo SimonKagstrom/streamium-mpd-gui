@@ -76,6 +76,8 @@ bool ext_matches_list(const char *name, const char **exts);
 
 const char **get_file_list(const char *base_dir, const char *exts[]);
 
+const char *construct_path(const char *base_dir, const char *file);
+
 void *sdl_surface_to_png(SDL_Surface *src, size_t *out_sz);
 
 SDL_Surface *sdl_surface_from_data(void *data, size_t sz);
