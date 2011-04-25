@@ -77,6 +77,10 @@ public:
 	{
 		const char *fileName = this->pp_msgs[this->cur_sel];
 
+		/* Nothing to add */
+		if (strcmp(fileName, "None") == 0)
+			return;
+
 		if (m_view->m_playlist) {
 			mpd_run_load(Gui::gui->mpd_conn, fileName);
 			Gui::gui->status_bar->queueMessage("Queued playlist %s",
