@@ -15,28 +15,6 @@ const char *main_menu_messages[14] = {
 };
 
 
-
-
-class ExitListener : public DialogueListener
-{
-	void escapeCallback(DialogueBox *which, int selected)
-	{
-		delete this;
-	}
-
-	void selectCallback(DialogueBox *which, int selected)
-	{
-		/* Cancel? */
-		if (selected != 1)
-		{
-			Gui::gui->exitMenu();
-			exit(1);
-		}
-
-		delete this;
-	}
-};
-
 class MainView;
 class MainMenu : public Menu
 {
