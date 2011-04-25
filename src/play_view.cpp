@@ -10,7 +10,7 @@ public:
 		panic_if(!Gui::gui->default_font,
 				"Theme does not seem correctly loaded\n");
 
-		m_duration_color = SDL_MapRGB(SDL_GetVideoInfo()->vfmt, 255,255,255);
+		m_duration_color = SDL_MapRGB(SDL_GetVideoInfo()->vfmt, 64,192,64);
 		m_font_h = Gui::gui->default_font->getHeight("A");
 	}
 
