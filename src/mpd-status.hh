@@ -171,7 +171,7 @@ protected:
 		struct mpd_status *status;
 
 		/* Retrigger */
-		TimerController::controller->arm(this, 700);
+		TimerController::controller->arm(this, 1200);
 
 		status = mpd_run_status(Gui::gui->mpd_conn);
 		if (!status)
